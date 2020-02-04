@@ -14,12 +14,12 @@ class CreateWalletsTable extends Migration
     public function up()
     {
         Schema::create('wallets', function (Blueprint $table) {
-            $table->bigIncrements('walletId');
-            $table->string('availableBalance');
-            $table->string('currency');
-            $table->string('freezedBalance');
-            $table->string('transactionHistory');
-            $table->timestamps();
+          $table->bigIncrements('id');
+          $table->integer('availableBalance')->nullable();
+          $table->string('currency')->nullable();
+          $table->integer('freezedBalance')->nullable();
+          $table->string('transactionHistory')->nullable();
+          $table->timestamps();
         });
     }
 

@@ -15,9 +15,10 @@ class CreateRulesTable extends Migration
     {
         Schema::create('rules', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('checkIn');
-            $table->text('modify');
-            $table->string('commit');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->integer('must')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

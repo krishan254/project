@@ -14,11 +14,16 @@ class CreateSubscriptionsTable extends Migration
     public function up()
     {
         Schema::create('subscriptions', function (Blueprint $table) {
-            $table->bigIncrements('subscriptionId');
-            $table->string('join');
-            $table->string('unsubscribe');
-            $table->string('status');
-            $table->timestamps();
+          $table->bigIncrements('id');
+          $table->integer('type')->nullable();
+          $table->double('cost')->nullable();
+          $table->double('discount')->nullable();
+          $table->double('payable')->nullable();
+          $table->double('received')->nullable();
+          $table->double('pending')->nullable();
+          $table->string('coupon')->nullable();
+          $table->integer('percentageDiscount')->nullable();
+          $table->timestamps();
         });
     }
 
