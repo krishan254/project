@@ -14,20 +14,8 @@ class CreateLandlordsTable extends Migration
     public function up()
     {
         Schema::create('landlords', function (Blueprint $table) {
-            $table->bigIncrements('landlordId');
-            $table->string('plotNumber');
-            $table->integer('rent');
-            $table->string('insurance');
-            $table->string('parking');
-            $table->integer('lateFees');
-            $table->integer('condoFees');
-            $table->string('dateCreated');
-            $table->string('dateModified');
-            $table->integer('rentdeposit');
-            $table->string('water');
-            $table->string('electricity');
-            $table->string('wifi');
-            $table->timestamps();
+          $table->bigIncrements('id');
+          $table->timestamps();
         });
     }
 

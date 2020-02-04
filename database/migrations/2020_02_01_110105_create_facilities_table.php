@@ -14,10 +14,11 @@ class CreateFacilitiesTable extends Migration
     public function up()
     {
         Schema::create('facilities', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('filter');
-            $table->string('unitPrice');
-            $table->timestamps();
+          $table->bigIncrements('id');
+          $table->string('name')->nullable();
+          $table->text('description')->nullable();
+          $table->integer('available')->nullable();
+          $table->string('status')->nullable();
         });
     }
 

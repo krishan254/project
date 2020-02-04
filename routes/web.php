@@ -17,6 +17,5 @@ Route::get('/', function () {
 
 //listing
 Route::resource('find-a-property','ListingsController');
-
 //User
 Route::get('{username}','UsersController@show');

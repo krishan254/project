@@ -15,6 +15,8 @@ class CreateTenantsTable extends Migration
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('occupation')->nullable();
+            $table->datetime('registrationDate')->nullable();
             $table->timestamps();
         });
     }

@@ -14,10 +14,10 @@ class CreateReviewsTable extends Migration
     public function up()
     {
         Schema::create('reviews', function (Blueprint $table) {
-            $table->bigIncrements('reviewId');
-            $table->string('visible');
-            
-            $table->timestamps();
+          $table->bigIncrements('id');
+          $table->string('description')->nullable();
+          $table->integer('visible')->nullable();
+          $table->timestamps();
         });
     }
 

@@ -21,6 +21,10 @@ class CreateAgentsTable extends Migration
             $table->string('secondaryEmail')->nullable();
             $table->integer('primaryPhone')->nullable();
             $table->integer('secondaryPhone')->nullable();
+            $table->string('agencyAddress')->nullable();
+            $table->integer('agencyPhone')->nullable();
+            $table->string('workEmail')->nullable();
+            $table->string('agencyLicence')->nullable();
             $table->timestamps();
         });
     }
