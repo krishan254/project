@@ -25,7 +25,7 @@ class CreateListingsTable extends Migration
             $table->datetime('startDate')->nullable();
             $table->datetime('endDate')->nullable();
             $table->string('address')->nullable();
-            $table->text('pysicalAddress')->nullable();
+            $table->text('physicalAddress')->nullable();
             $table->datetime('constructionDate')->nullable();
             $table->datetime('renovationDate')->nullable();
             $table->string('pinLocation')->nullable();

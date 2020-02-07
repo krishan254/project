@@ -6,7 +6,7 @@ class ListingHelper
 {
 
   /**
-   * Update a listing Title.
+   * Update a listing title.
    *
    * @param  $id and $title
    * @return boolean true / false
@@ -23,7 +23,7 @@ class ListingHelper
      else
       return false;
    }
-  /**
+   /**
    * Update a listing Name.
    *
    * @param  $id and $name
@@ -365,7 +365,7 @@ class ListingHelper
       return true;
      else
       return false;
-   }        
+   }
    /**
    * Update a listings AdvertisingCost.
    *
@@ -475,4 +475,5 @@ class ListingHelper
      else
       return false;
    }
+
 }
