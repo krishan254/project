@@ -11,9 +11,9 @@ class StoreTenant extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+  public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,34 @@ class StoreTenant extends FormRequest
     public function rules()
     {
         return [
-            //
+          'occupation' => 'required|max:255',
+          'registrationDate' => 'required|date|max:255',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'occupation.required' => 'Occupation is required',
+            'registrationDate.required'  => 'A registration date is required',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'occupation' => 'Occupation',
+            'registrationDate' => 'Registration date',
         ];
     }
 }

@@ -13,7 +13,7 @@ class StoreCategories extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return True;
     }
 
     /**
@@ -24,7 +24,37 @@ class StoreCategories extends FormRequest
     public function rules()
     {
         return [
-            //
+        'title' => 'required|max:255',
+        'image' => 'required',
+        'description' => 'required'
         ];
     }
+
+ /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'title.required' => 'A title is required',
+            'image.required'  => 'image required',
+            'description.required'  => 'description required',
+        ];
+    }
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'title' => 'Title',
+            'image' => 'Image',
+            'description' => 'description',
+        ];
+    }
+
 }

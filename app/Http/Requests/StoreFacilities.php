@@ -11,9 +11,9 @@ class StoreFacilities extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,36 @@ class StoreFacilities extends FormRequest
     public function rules()
     {
         return [
-            //
+          'name' => 'required|max:255',
+          'description' => 'required',
+          'available' => 'nullable|numeric|max:255',
+          'status' => 'nullable|numeric'
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'name.required' => 'An name is required',
+            'description.required'  => 'A description is required',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'name' => 'Name',
+            'description' => 'description',
         ];
     }
 }

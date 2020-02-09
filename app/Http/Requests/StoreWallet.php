@@ -11,9 +11,9 @@ class StoreWallet extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+  public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,39 @@ class StoreWallet extends FormRequest
      *
      * @return array
      */
-    public function rules()
+     public function rules()
     {
         return [
-            //
+          'availableBalance' => 'required|numeric',
+          'currency' => 'required|max:255',
+          'freezedBalance' => 'nullable|numeric',
+          'transactionHistory' => 'nullable'
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'availableBalance.required' => 'An available Balance is required',
+            'currency.required'  => 'Currency is required',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'availableBalance' => 'Available balance',
+            'currency' => 'Currency',
         ];
     }
 }
