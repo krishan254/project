@@ -11,9 +11,9 @@ class StoreCondition extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+  public function authorize()
     {
-        return false;
+        return True;
     }
 
     /**
@@ -24,7 +24,32 @@ class StoreCondition extends FormRequest
     public function rules()
     {
         return [
-            //
+          'name' => 'required|max:255',
+          'description' => 'nullable',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'name.required' => 'A name is required',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'name' => 'Name',
         ];
     }
 }

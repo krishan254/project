@@ -11,7 +11,7 @@ class StoreLandlord extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+     public function authorize()
     {
         return false;
     }
@@ -24,7 +24,28 @@ class StoreLandlord extends FormRequest
     public function rules()
     {
         return [
-            //
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
         ];
     }
 }

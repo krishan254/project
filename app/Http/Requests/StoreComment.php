@@ -13,7 +13,7 @@ class StoreComment extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return True;
     }
 
     /**
@@ -24,7 +24,33 @@ class StoreComment extends FormRequest
     public function rules()
     {
         return [
-            //
+          'body' => 'required',
+          'visible' => 'nullable',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'body.required' => 'A body is required',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'body' => 'Body',
         ];
     }
 }
+
