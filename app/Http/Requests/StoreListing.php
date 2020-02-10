@@ -24,17 +24,17 @@ class StoreListing extends FormRequest
     public function rules()
     {
         return [
-          'agent_id' => 'nullable|numeric',
-          'title' => 'nullable',
+          'agent_id' => 'required|numeric',
+          'title' => 'required',
           'name' => 'required',
-          'type' => 'nullable|numeric',
-          'units' => 'nullable|numeric',
+          'type' => 'required|numeric',
+          'units' => 'required|numeric',
           'parkingSpaces' => 'nullable|numeric',
           'parkingSpacesPerUnit' => 'nullable|numeric',
           'startDate' => 'nullable|date',
           'endDate' => 'nullable|date',
           'address' => 'nullable',
-          'physicalAddress' => 'nullable',
+          'physicalAddress' => 'required',
           'constructionDate' => 'nullable|date',
           'renovationDate' => 'nullable|date',
           'pinLocation' => 'nullable',
@@ -63,6 +63,12 @@ class StoreListing extends FormRequest
     public function messages()
     {
         return [
+          'agent_id.required' => 'An agent id is required',
+          'title.required'  => 'image required',
+          'name.required'  => 'name is required',
+          'type.required'  => 'type is required',
+          'units.required'  => 'Units is required',
+          'physicalAddress.required'  => 'name is required',
         ];
     }
 
@@ -74,6 +80,12 @@ class StoreListing extends FormRequest
     public function attributes()
     {
         return [
+          'agent_id' => 'Agent ID',
+          'title' => 'Title',
+          'name' => 'Name',
+          'type' => 'Type',
+          'units' => 'Units',
+          'physicalAddress' => 'Physical Address',
         ];
     }
 }
