@@ -38,9 +38,22 @@ class ListingFilters
      */
      public static function getListingsByDate( $date )
      {
-       //code
-     }
+      if( isset($date['date']) && isset($date['orderBy']) )
 
+        return Listing::orderBy( $date['date'], $date['orderBy'] )->get();
+
+      elseif( !isset($date['date']) && isset($date['orderBy']) )
+
+        return Listing::orderBy( 'date', $date['orderBy'] )->get();
+
+      elseif( isset($date['date']) && !isset($date['orderBy']) )
+
+        return Listing::orderBy( ['date'], 'DESC' )->get();
+
+      else
+
+        return Listing::orderBy( 'date', 'DESC' )->get();
+     }
 
      /**
       * Get listings created during specific dates.
@@ -50,7 +63,21 @@ class ListingFilters
       */
       public static function getListingsBySpecificDate( $startDate, $endDate )
       {
-        //code
+      if( isset($startDate, $endDate['sortField']) && isset($startDate, $endDate['orderBy']) )
+
+        return Listing::orderBy( $startDate, $endDate['sortField'], $startDate, $endDate['orderBy'] )->get();
+
+      elseif( !isset($startDate, $endDate['sortField']) && isset($startDate, $endDate['orderBy']) )
+
+        return Listing::orderBy( 'startDate, endDate', $startDate, $endDate['orderBy'] )->get();
+
+      elseif( isset($startDate, $endDate['sortField']) && !isset($startDate, $endDate['orderBy']) )
+
+        return Listing::orderBy( ['sortField'], 'DESC' )->get();
+
+      else
+
+        return Listing::orderBy( 'startDate, endDate', 'DESC' )->get();
       }
 
       /**
@@ -61,7 +88,20 @@ class ListingFilters
        */
        public static function getListings( $filters = [] )
        {
-         //code
+      if( isset($filters['id']) && isset($filters['orderBy']) )
+
+        return Listing::orderBy( $filters['id'], $filters['orderBy'] )->get();
+
+      elseif( !isset($filters['id']) && isset($filters['orderBy']) )
+
+        return Listing::orderBy( 'id', $filters['orderBy'] )->get();
+
+      elseif( isset($filters['id']) && !isset($filters['orderBy']) )
+
+        return Listing::orderBy( $filters['id'], 'DESC' )->get();
+
+      else
+
          return Listing::orderBy( $orderFilter )->whereBetween('created_at',[$startDate,$endDate])->whereDate( $date )--MORE QUERIES HERE-->get()
        }
 }
