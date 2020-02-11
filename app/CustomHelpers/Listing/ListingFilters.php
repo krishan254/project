@@ -1,107 +1,68 @@
 <?php
-namespace App\CustomHelpers\Listing;
+
+namespace Tests\Feature;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 use App\Listing;
+use App\CustomHelpers\Listing\ListingFilters;
 use Carbon\Carbon;
 
-class ListingFilters
+class FilterListingTest extends TestCase
 {
-   /**
-    * Get listings ordered based on supplied filters.
-    *
-    * @param   $sortField and $orderBy
-    * @return  $listings
-    */
-    public static function getListingsByOrder( $filters = [] )
+    use RefreshDatabase;
+
+    public function test_can_filter_listing_ascending()
     {
-      if( isset($filters['sortField']) && isset($filters['orderBy']) )
-
-        return Listing::orderBy( $filters['sortField'], $filters['orderBy'] )->get();
-
-      elseif( !isset($filters['sortField']) && isset($filters['orderBy']) )
-
-        return Listing::orderBy( 'id', $filters['orderBy'] )->get();
-
-      elseif( isset($filters['sortField']) && !isset($filters['orderBy']) )
-
-        return Listing::orderBy( $filters['sortField'], 'DESC' )->get();
-
-      else
-
-        return Listing::orderBy( 'id', 'DESC' )->get();
+        factory(Listing::class,10)->create();
+        $foundListings = ListingFilters::getListingsByOrder(['sortField'=>'created_at','orderBy' => 'ASC']);
+        $retrivedListings = Listing::all();
+        $this->assertEquals($foundListings[0]['id'],$retrivedListings[0]['id']);
     }
 
-    /**
-     * Get listings created certain date.
-     *
-     * @param   $date
-     * @return  $listings
-     */
-     public static function getListingsByDate( $date )
-     {
-      if( isset($date['date']) && isset($date['orderBy']) )
+    public function test_can_filter_listing_descending()
+    {
+        factory(Listing::class,10)->create();
+        $foundListings = ListingFilters::getListingsByOrder(['orderBy' => 'DESC']);
+        $retrivedListings = Listing::all();
+        $this->assertEquals($foundListings[0]['id'],$retrivedListings[9]['id']);
+    }
 
-        return Listing::orderBy( $date['date'], $date['orderBy'] )->get();
+    public function test_can_filter_listing_date()
+    {
+        factory(Listing::class)->create(['title'=>'Created today','created_at' => Carbon::today()]);
+        factory(Listing::class)->create(['title'=>'Created yesterday','created_at' => Carbon::yesterday()]);
+        $foundListings = ListingFilters::getListingsByDate( Carbon::today() );
 
-      elseif( !isset($date['date']) && isset($date['orderBy']) )
+        $this->assertEquals(count($foundListings),1);
+        $this->assertEquals($foundListings[0]['title'], 'Created today');
+    }
 
-        return Listing::orderBy( 'date', $date['orderBy'] )->get();
+    public function test_can_filter_listing_in_specific_dates()
+    {
+        factory(Listing::class,2)->create(['title'=>'Created today','created_at' => Carbon::today()]);
+        factory(Listing::class,2)->create(['title'=>'Created yesterday','created_at' => Carbon::yesterday()]);
+        factory(Listing::class,10)->create(['title'=>'Created yesterday','created_at' => Carbon::tomorrow()]);
+        $foundListings = ListingFilters::getListingsBySpecificDate( ['startDate'=>Carbon::yesterday(), 'endDate'=>Carbon::today()] );
 
-      elseif( isset($date['date']) && !isset($date['orderBy']) )
+        $this->assertEquals(count($foundListings),4);
+    }
 
-        return Listing::orderBy( ['date'], 'DESC' )->get();
+    public function test_can_filter_listing_using_custom_filters()
+    {
+        factory(Listing::class,2)->create(['title'=>'Created today','created_at' => Carbon::today()]);
+        factory(Listing::class,2)->create(['title'=>'Created yesterday','created_at' => Carbon::yesterday()]);
+        factory(Listing::class,10)->create(['title'=>'Created yesterday','created_at' => Carbon::tomorrow()]);
+        $filters = [
+          'orderBy' => 'DESC',
+          'sortField' => 'id',
+          'startDate' => Carbon::yesterday(),
+          'endDate' => Carbon::today(),
+        ];
+        $foundListings = ListingFilters::getListings( $filters );
 
-      else
-
-        return Listing::orderBy( 'date', 'DESC' )->get();
-     }
-
-     /**
-      * Get listings created during specific dates.
-      *
-      * @param   $startDate and $endDate
-      * @return  $listings
-      */
-      public static function getListingsBySpecificDate( $startDate, $endDate )
-      {
-      if( isset($startDate, $endDate['sortField']) && isset($startDate, $endDate['orderBy']) )
-
-        return Listing::orderBy( $startDate, $endDate['sortField'], $startDate, $endDate['orderBy'] )->get();
-
-      elseif( !isset($startDate, $endDate['sortField']) && isset($startDate, $endDate['orderBy']) )
-
-        return Listing::orderBy( 'startDate, endDate', $startDate, $endDate['orderBy'] )->get();
-
-      elseif( isset($startDate, $endDate['sortField']) && !isset($startDate, $endDate['orderBy']) )
-
-        return Listing::orderBy( ['sortField'], 'DESC' )->get();
-
-      else
-
-        return Listing::orderBy( 'startDate, endDate', 'DESC' )->get();
-      }
-
-      /**
-       * Get listings based on supplied filters.
-       *
-       * @param  array $filters
-       * @return array $listings
-       */
-       public static function getListings( $filters = [] )
-       {
-      if( isset($filters['id']) && isset($filters['orderBy']) )
-
-        return Listing::orderBy( $filters['id'], $filters['orderBy'] )->get();
-
-      elseif( !isset($filters['id']) && isset($filters['orderBy']) )
-
-        return Listing::orderBy( 'id', $filters['orderBy'] )->get();
-
-      elseif( isset($filters['id']) && !isset($filters['orderBy']) )
-
-        return Listing::orderBy( $filters['id'], 'DESC' )->get();
-
-      else
-
-         return Listing::orderBy( $orderFilter )->whereBetween('created_at',[$startDate,$endDate])->whereDate( $date )--MORE QUERIES HERE-->get()
-       }
+        $retrivedListings = Listing::whereDate('created_at','>=',Carbon::yesterday())->whereDate('created_at','<=',Carbon::today())->get();
+        $this->assertEquals($foundListings[0]['id'],$retrivedListings[3]['id']);
+    }
 }
